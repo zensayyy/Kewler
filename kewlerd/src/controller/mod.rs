@@ -8,5 +8,5 @@ pub enum Kewl {
     #[response(status = 401, content_type = "text")]
     Unauthorized(String),
     #[response(status = 500, content_type = "text")]
-    Error(String)
+    Error(String),
 }
