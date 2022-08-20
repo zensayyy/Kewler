@@ -19,10 +19,10 @@ GitRepo:
         description: kewler/v1
         type: string
     url: 
-        description: either ssh or http URL to the repository 
+        description: http URL to the repository 
         type: string
     secret:
-        decription: either username and password or private key and known_host for ssh connections
+        decription: username and password, but optional for public repositories
         type: optional(string)
     interval: 
         description: Interval in seconds to check repository for new releases
@@ -30,7 +30,7 @@ GitRepo:
 ---
 GitRepoUpdate:
     secret:
-        decription: either username and password or private key and known_host for ssh connections
+        decription: username and password, but optional for public repositories
         type: optional(string)
     interval: 
         description: Interval in seconds to check repository for new releases
