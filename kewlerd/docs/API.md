@@ -29,6 +29,9 @@ GitRepo:
         type: int
 ---
 GitRepoUpdate:
+    apiVersion:
+        description: kewler/v1
+        type: string
     url: 
         description: http URL to the repository 
         type: string
@@ -40,6 +43,9 @@ GitRepoUpdate:
         type: optional(int)
 ---
 GitRepoRm:
+    apiVersion:
+        description: kewler/v1
+        type: string
     url: 
         description: http URL to the repository
         type: string
