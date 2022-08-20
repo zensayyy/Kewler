@@ -1,5 +1,5 @@
 use super::Kewl;
-use crate::model::git;
+use crate::api::model::git;
 use rocket::serde::json::Json;
 /// As descriped in API.md
 #[post("/git/add", data = "<repo>")]

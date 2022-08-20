@@ -1,9 +1,8 @@
 #[macro_use]
 extern crate rocket;
 
-mod controller;
-mod model;
-
+mod api;
+use api::controller;
 #[launch]
 fn rocket() -> _ {
     rocket::build().mount(
