@@ -29,8 +29,11 @@ GitRepo:
         type: int
 ---
 GitRepoUpdate:
+    url: 
+        description: http URL to the repository 
+        type: string
     secret:
-        decription: username and password, but optional for public repositories
+        decription: username and password
         type: optional(string)
     interval: 
         description: Interval in seconds to check repository for new releases
@@ -55,9 +58,9 @@ GitRepoUpdate:
         "200": Ok
         "401": Unauthorized
         "500": Internal server error
-/git/{repository_url}/update:
+/git/update:
     post:  
-        summary: Updates the GitRepo object
+        summary: Updates the GitRepo object identified by url in GitRepoUpdate
     requestBody:    
         content: application/json
         schema: GitRepoUpdate
