@@ -38,6 +38,11 @@ GitRepoUpdate:
     interval: 
         description: Interval in seconds to check repository for new releases
         type: optional(int)
+---
+GitRepoRm:
+    url: 
+        description: http URL to the repository
+        type: string
 ```
 
 ```yaml
@@ -51,9 +56,12 @@ GitRepoUpdate:
         "200": Ok
         "401": Unauthorized
         "500": Internal server error
-/git/{repository_url}/remove:
+/git/remove:
     post:
         summary: Removes a git repository from the watch list
+    requestBody:
+        content: application/json
+        schema: GitRepoRm
     responses:
         "200": Ok
         "401": Unauthorized
