@@ -6,8 +6,8 @@
 
 Features:
 
-- support git repositories using a pull-based system
-  - configurable https and ssh connections
+- support git repositories (github) using a pull-based system
+  - configurable https Github repository url
   - configurable poll time
   - secrets for private repositories
 
