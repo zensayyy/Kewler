@@ -1,7 +1,8 @@
 use rocket::serde::{Deserialize, Serialize};
 
+#[derive(Deserialize)]
 pub enum GitObject {
-    v1(GitRepov1)
+    v1(GitRepov1),
 }
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
