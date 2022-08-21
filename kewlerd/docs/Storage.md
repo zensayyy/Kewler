@@ -22,5 +22,4 @@ fn insert(key: T, value: Z) -> Result<()>;
 fn get(key: &T) -> Option<&Z>
 fn update(key: &T, value: Z) -> Result<()>;
 fn delete(key: &T) -> Result<()>;
-
 ```

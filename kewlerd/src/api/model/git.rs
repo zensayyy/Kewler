@@ -1,5 +1,9 @@
 use rocket::serde::{Deserialize, Serialize};
 
+pub enum GitObject {
+    v1(GitRepov1)
+}
+
 #[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
 #[serde(crate = "rocket::serde")]
 /// Secret used for authentication at private repositories
@@ -12,7 +16,7 @@ pub struct Secret {
 #[derive(Serialize, Deserialize)]
 #[serde(crate = "rocket::serde")]
 /// documented in API.md
-pub struct GitRepo {
+pub struct GitRepov1 {
     apiVersion: String,
     url: String,
     secret: Option<Secret>,

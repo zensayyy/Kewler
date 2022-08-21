@@ -3,7 +3,7 @@ use crate::api::model::git;
 use rocket::serde::json::Json;
 /// As descriped in API.md
 #[post("/git/add", data = "<repo>")]
-pub async fn add(repo: Json<git::GitRepo>) -> Kewl {
+pub async fn add(repo: Json<git::GitRepov1>) -> Kewl {
     // TODO
     Kewl::Ok("Created".to_string())
 }
