@@ -10,14 +10,16 @@ Features:
 
 ### Specification
 
-Interface
-```rust
-/// Database management
-fn create_database(name: &str ) -> Result<()>;
-fn load_database(name: &str ) -> Result<Database>;
-fn delete_database(name: &str ) -> Result<()>;
+Use `KvStore` to manage `Database`s which essentially are `HashMap`.
 
-/// Data operations implemented for a Database 
+```rust
+/// KvStore 
+fn save() -> Result<()>; // serialize the KvStore and save it to file
+fn load_or_init(path: &PathBuf ) -> Result<KvStore>; // attempts to load the KvStore from file (prior serialize to BSON) or will create an empty
+fn add_database(name: &str) -> Result<()>; // attempts to add a database by name 
+fn drop_database(name: &str) -> Result<()>; // attempts to drop a database by name
+
+/// Database
 fn insert(key: T, value: Z) -> Result<()>;
 fn get(key: &T) -> Option<&Z>
 fn update(key: &T, value: Z) -> Result<()>;

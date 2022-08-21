@@ -8,13 +8,16 @@ use super::database::Database;
 
 #[derive(Serialize, Deserialize)]
 pub struct KvStore<V> {
-    pub databases: HashMap<String, Database<V>>,
+    #[serde(skip_serializing, skip_deserializing)]
+    kv_store_path: PathBuf,
+    databases: HashMap<String, Database<V>>,
 }
 
 impl<V: DeserializeOwned> KvStore<V> {
     /// init a new KvStore
-    fn new() -> KvStore<V> {
+    fn new(path: PathBuf) -> KvStore<V> {
         KvStore {
+            kv_store_path: path,
             databases: HashMap::new(),
         }
     }
@@ -37,7 +40,7 @@ impl<V: DeserializeOwned> KvStore<V> {
     pub fn load_or_init(kv_store_path: PathBuf) -> Result<KvStore<V>> {
         // Check if file exists
         if !kv_store_path.exists() {
-            return Ok(KvStore::new());
+            return Ok(KvStore::new(kv_store_path));
         }
 
         // deserialize the KvStore from file
