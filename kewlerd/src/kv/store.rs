@@ -1,19 +1,23 @@
-use std::{collections::HashMap, fs::File, path::PathBuf};
+use std::{
+    collections::HashMap,
+    fs::{File, OpenOptions},
+    path::PathBuf,
+};
 
+use super::database::Database;
 use anyhow::{bail, Context, Result};
 use rocket::serde::DeserializeOwned;
 use serde::{Deserialize, Serialize};
-
-use super::database::Database;
+use std::io::Write;
 
 #[derive(Serialize, Deserialize)]
-pub struct KvStore<V> {
+pub struct KvStore<V: Serialize> {
     #[serde(skip_serializing, skip_deserializing)]
     kv_store_path: PathBuf,
     databases: HashMap<String, Database<V>>,
 }
 
-impl<V: DeserializeOwned> KvStore<V> {
+impl<V: DeserializeOwned + Serialize> KvStore<V> {
     /// init a new KvStore
     fn new(path: PathBuf) -> KvStore<V> {
         KvStore {
@@ -56,5 +60,41 @@ impl<V: DeserializeOwned> KvStore<V> {
         };
 
         Ok(kv_store)
+    }
+
+    /// Save the KvStore to given path
+    pub fn save(&self) -> Result<()> {
+        let kv_store_bytes = bson::to_vec(self).context("Failed to serialize the KvStore")?;
+        let mut file = OpenOptions::new()
+            .truncate(true)
+            .write(true)
+            .create(true)
+            .open(&self.kv_store_path)
+            .context(format!(
+                "Failed to open File to save KvStore '{}'",
+                self.kv_store_path.as_os_str().to_str().unwrap_or("")
+            ))?;
+        Ok(file.write_all(&kv_store_bytes)?)
+    }
+
+    /// adds a named database to the store, if not present
+    /// however, does not persist the KvStore yet
+    /// return `None` if the database already exists, otherwise returns Some(())
+    pub fn add_database(&mut self, name: &str) -> Option<()> {
+        if self.databases.contains_key(name) {
+            return None;
+        }
+        self.databases.insert(name.to_string(), Database::new());
+        Some(())
+    }
+
+    /// removes a named database
+    /// however, does not persist the KvStore yet
+    /// returns `None`if database did not exists, otherwise returns Some(())
+    pub fn drop_database(&mut self, name: &str) -> Option<()> {
+        if let Some(_) = self.databases.remove(name) {
+            return Some(());
+        }
+        None
     }
 }
