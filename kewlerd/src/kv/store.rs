@@ -13,8 +13,8 @@ use std::io::Write;
 #[derive(Serialize, Deserialize)]
 pub struct KvStore<V: Serialize> {
     #[serde(skip_serializing, skip_deserializing)]
-    kv_store_path: PathBuf,
-    databases: HashMap<String, Database<V>>,
+    pub kv_store_path: PathBuf,
+    pub databases: HashMap<String, Database<V>>,
 }
 
 impl<V: DeserializeOwned + Serialize> KvStore<V> {
@@ -56,7 +56,13 @@ impl<V: DeserializeOwned + Serialize> KvStore<V> {
                     kv_store_path.to_str().unwrap_or("{}")
                 ))
             }
-            Ok(kv_store) => kv_store,
+            Ok(kv_store) => {
+                let kv_store = KvStore {
+                    kv_store_path: kv_store_path,
+                    databases: kv_store.databases,
+                };
+                kv_store
+            }
         };
 
         Ok(kv_store)

@@ -9,8 +9,8 @@ pub enum GitObject {
 #[serde(crate = "rocket::serde")]
 /// Secret used for authentication at private repositories
 pub struct Secret {
-    username: String,
-    password: String,
+    pub username: String,
+    pub password: String,
 }
 
 #[allow(non_snake_case)]
@@ -18,10 +18,9 @@ pub struct Secret {
 #[serde(crate = "rocket::serde")]
 /// documented in API.md
 pub struct GitRepov1 {
-    apiVersion: String,
-    url: String,
-    secret: Option<Secret>,
-    interval: u32,
+    pub url: String,
+    pub secret: Option<Secret>,
+    pub interval: u32,
 }
 
 #[allow(non_snake_case)]
